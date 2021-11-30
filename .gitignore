@@ -1,0 +1,6 @@
+*.exe
+test.cpp
+*.out
+output
+input_test
+.vscode/*
