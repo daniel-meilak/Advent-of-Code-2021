@@ -8,10 +8,10 @@
 
 int main(){
 
-    // read input into vector of strings.
+    // read input into vector of int.
     std::vector<int> input = input_to_int<int>(read_input("input", ""));
 
-    size_t size = input.size();
+    const size_t& size = input.size();
     
     // number of increments
     int part_1 = 0;
@@ -38,10 +38,10 @@ int main(){
 }
 
 // Thanks to another reddit user, /u/paul2718, std::inner_product is a convenient inbuilt function that 
-// can shorted the code considerably. Of course you are now required to loop through the input twice.
+// can shorten the code considerably. Of course you are now required to loop through the input twice.
 void using_inner_product(){
 
-    // read input into vector of strings.
+    // read input into vector of int.
     std::vector<int> input = input_to_int<int>(read_input("input", ""));
 
     // parameter breakdown:                                first1         last1          first2           init  op1            op2
@@ -53,4 +53,35 @@ void using_inner_product(){
     // init          - initial value of the sum
     // op1           - takes return of op2 and accumulator(init) and produces a new value
     // op2           - compares one value from each range and produces a new value
+}
+
+// By looking at cppreference, we can look at the source for std::inner_product and create our own implementation
+// which performs part1 and part2 at the same time
+void improved_day_1(){
+
+    // read input into vector of int.
+    std::vector<int> input = input_to_int<int>(read_input("input", ""));
+
+    auto start = input.begin();     // compare from initial value in vector
+    auto end   = input.end()-3;     // stop at 3rd value from last (due to part2)
+    auto comp1 = input.begin()+1;   // part1 requires comparison with next value   
+    auto comp2 = input.begin()+3;   // part2 requires comparison with value 3 ahead (can ignore middle two)
+
+    int  part_1  = 0;
+    int  part_2  = 0;
+
+    while (start != end){
+        
+        part_1 += *start < *comp1;
+        part_2 += *start < *comp2;
+        ++start;
+        ++comp1;
+        ++comp2;
+    }
+
+    // last steps of part1 must be done manually
+    part_1 += (*(input.end()-2) < *(input.end()-1)) +  (*(input.end()-3) < *(input.end()-2));
+
+    std::cout << "Answer (part 1): " << part_1 << std::endl;
+    std::cout << "Answer (part 2): " << part_2 << std::endl;
 }
