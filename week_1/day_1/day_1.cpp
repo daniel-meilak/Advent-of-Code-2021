@@ -26,8 +26,8 @@ int main(){
         // check consecutive depths
         if (input[i] > input[i-1]){ part_1++; }
 
-        // check depths in groups of 3
-        if ( (input[i]+input[i-1]+input[i-2]) > (input[i-1]+input[i-2]+input[i-3]) ){ part_2++; }
+        // check depths in groups of 3 (ignore common steps from sum)
+        if (input[i] > input[i-3]){ part_2++; }
     }
 
     std::cout << "Answer (part 1): " << part_1 << std::endl;
