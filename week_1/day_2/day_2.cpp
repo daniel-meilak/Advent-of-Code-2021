@@ -17,24 +17,27 @@ int main(){
 
     for ( auto step : input ){
 
+        // convert string value to int
+        X = std::stoi(step[1]);
+
         // use first letter of forward/down/up
         switch (step[0][0]){
         case 'f': 
-            X = std::stoi(step[1]);
             pos += X;
             depth += aim * X;
             break;
         
         case 'd':
-            aim += std::stoi(step[1]);
+            aim += X;
             break;
 
         case 'u':
-            aim -= std::stoi(step[1]);
+            aim -= X;
             break;
         }
     }
 
+    // aim in part 2 is the same as depth in part 1, and pos remains unchanged
     std::cout << "Answer (part 1): " << aim*pos   << std::endl;
     std::cout << "Answer (part 2): " << depth*pos << std::endl;
 
