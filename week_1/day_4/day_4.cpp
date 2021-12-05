@@ -9,37 +9,27 @@
 #include"../../Utils/utils.h"
 #include"../../Utils/point.h"
 
-// box in bingo card to hold int(value) and bool(crossed out or not)
-struct box_t{
-    int num;
-    bool crossed_out = false;
-};
-
-// logical && for crossed_out in box_t type
-constexpr bool box_and(const bool& lhs, const box_t& rhs){
-    return lhs && rhs.crossed_out;
-}
-
 // bingo card struct
 struct card_t{
 
-    // 2D vector of boxes (initialise as 5x5)
-    std::vector<std::vector<box_t>> sheet{5,std::vector<box_t>(5)};
+    // 2D vector of numbers and bool (initialise as 5x5)
+    std::vector<std::vector<int>> sheet{5,std::vector<int>(5)};
+    std::vector<std::vector<bool>> crossed{5,std::vector<bool>(5,false)};
 
     // unordered map containing all numbers in sheet and location
-    std::unordered_map<int,point> values;
+    std::unordered_map<int,point<int>> values;
 
     // check if row/col at pos has been completed
     bool completed_card( const int& x, const int& y ){
 
         // check row 
-        if (std::accumulate(sheet[x].begin(), sheet[x].end(), true, box_and)){ return true; }
+        if (std::accumulate(crossed[x].begin(), crossed[x].end(), true, std::logical_and())){ return true; }
 
         // check col
         bool completed = true;
 
         for (size_t i=0; i<5; i++){
-            completed &= sheet[i][y].crossed_out;
+            completed &= crossed[i][y];
         }
 
         return completed;
@@ -48,9 +38,9 @@ struct card_t{
     int sum_unmarked(){
 
         int sum = 0;
-        for ( const auto& row : sheet){
-            for (const auto& box : row){
-                if (!box.crossed_out){ sum += box.num; }
+        for ( int i=0; i<5; i++ ){
+            for ( int j=0; j<5; j++ ){
+                if (!crossed[i][j]){ sum += sheet[i][j]; }
             }
         }
 
@@ -88,7 +78,7 @@ int main(){
         for (int j=0; j<5; j++){
 
             int num = std::stoi(input[i][j]);
-            temp.sheet[fill_row][j].num = num;
+            temp.sheet[fill_row][j] = num;
 
             // keep track of value position
             temp.values.insert( {num,{fill_row,j}} );
@@ -122,7 +112,7 @@ int main(){
             const int& y = call_pos->second.y;
 
             // cross out value on card
-            card->sheet[x][y].crossed_out = true;
+            card->crossed[x][y] = true;
 
             // check if card has won
             if (card->completed_card(x,y)){
