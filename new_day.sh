@@ -4,6 +4,13 @@
 # script for making new day folder and including files
 #-------------------------------------------------------
 
+# argument must be passed to script
+if [[ -z ${1+x} ]]; then
+    echo "A day number is required"
+    exit 1
+fi
+
+
 # determine week
 if   (( ${1} >= 1  && ${1} <= 7  )); then
     week="week_1"
