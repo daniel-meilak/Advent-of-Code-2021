@@ -128,19 +128,17 @@ int main(){
             if (card->completed_card(x,y)){
 
                 // score is the sum of unmarked numbers * last call
-                int score = card->sum_unmarked() * call;
-
-                // remove card from bingo_cards (returns next card)
-                card = bingo_cards.erase(card);
-
                 // only set the first score once
                 if (!first_score_set){
-                    first_score     = score;
+                    first_score     = card->sum_unmarked() * call;
                     first_score_set = true;
                 }
                 else {
-                    final_score = score;
+                    final_score = card->sum_unmarked() * call;
                 }     
+
+                // remove card from bingo_cards (returns next card)
+                card = bingo_cards.erase(card);
             }
             // else move to next card
             else { card++; }
