@@ -8,7 +8,7 @@
 
 int main(){
 
-    // read input into vector of vector of strings.
+    // read input into vector of vector of int
     std::vector<std::string> delimiters = {",", " ", "->"};
     std::vector<std::vector<int>> input = input_to_int_2D(read_input_2D("input", delimiters));
 
