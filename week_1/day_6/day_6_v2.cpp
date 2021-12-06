@@ -26,7 +26,7 @@ int main(){
 
         // instead of rotating the vector, keep track of fish on their "day 0"
         // and add them to the day 2 behind (cyling from beg to end if required)
-        if (it == stages.begin() || it == stages.begin()+1 ){ *std::next(it,7) += *it; }
+        if (it <= stages.begin()+1 ){ *std::next(it,7) += *it; }
         else { *std::next(it,-2) += *it; }
 
         // move it forward to next "day 0"
