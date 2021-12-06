@@ -2,6 +2,7 @@
 #include<vector>
 #include<string>
 #include<numeric>
+#include<algorithm>
 #include"../../Utils/utils.h"
 
 int main(){
@@ -19,21 +20,14 @@ int main(){
 
     // simulate school evolution for 80 days
     const int days = 256;
-    long newborns;
     long part_1, part_2;
     for (int i=0; i<days; i++){
 
-        // number of newborns is number currently at index 0
-        newborns = stages[0];
+        // move stages down by rotating the vector
+        std::rotate(stages.begin(), stages.begin()+1, stages.end());
 
-        // move stages down
-        for (int j=1; j<9; j++){
-            stages[j-1] = stages[j];
-        }
-
-        // add back the reset fish and set the newborns
-        stages[6] += newborns;
-        stages[8]  = newborns;
+        // add back the reset fish to stage 6
+        stages[6] += stages[8];        
 
         // at 80 days record number of fish for part_1
         if (i == 79){ part_1 = std::accumulate(stages.begin(),stages.end(),0l); }
