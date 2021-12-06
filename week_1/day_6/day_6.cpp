@@ -36,7 +36,7 @@ int main(){
         stages[8]  = newborns;
 
         // at 80 days record number of fish for part_1
-        if (i == 80){ part_1 = std::accumulate(stages.begin(),stages.end(),0l); }
+        if (i == 79){ part_1 = std::accumulate(stages.begin(),stages.end(),0l); }
     }
 
     // count all fish 
