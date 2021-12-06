@@ -30,8 +30,7 @@ int main(){
         else { *std::next(it,-2) += *it; }
 
         // move it forward to next "day 0"
-        it++;
-        if (it == stages.end()){ it = stages.begin(); }
+        if (++it == stages.end()){ it = stages.begin(); }
            
         // at 80 days record number of fish for part_1
         if (i == 79){ part_1 = std::accumulate(stages.begin(),stages.end(),0l); }
