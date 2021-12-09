@@ -6,7 +6,7 @@
 #include"../../Utils/utils.h"
 #include"../../Utils/point.h"
 
-std::vector<point<size_t>> cardinals = {{1ul,0ul},{-1ul,0ul},{0ul,1ul},{0ul,-1ul}};
+std::vector<point> cardinals = {{1,0},{-1,0},{0,1},{0,-1}};
 
 int main(){
 
@@ -14,8 +14,8 @@ int main(){
     std::vector<std::string> input = read_input("input", "");
 
     // grid width and height
-    size_t height = input.size()+2ul;
-    size_t width  = input[0].size()+2ul;
+    int height = (int)input.size()+2;
+    int width  = (int)input[0].size()+2;
 
     // grid with top border
     std::vector<std::vector<int>> grid{std::vector<int>(width,9)};
@@ -41,8 +41,8 @@ int main(){
     // calculate sum of risk levels and basin sizes
     int part_1 = 0;
     std::multiset<size_t> basin_sizes;
-    for (size_t x=1; x<height-1; x++){
-        for (size_t y=1; y<width-1; y++){
+    for (int x=1; x<height-1; x++){
+        for (int y=1; y<width-1; y++){
 
             const int& p = grid[x][y];
 
@@ -54,10 +54,10 @@ int main(){
                 point start = {x,y};
 
                 // list of all points in basin
-                std::set<point<size_t>> visited;
+                std::set<point> visited;
 
                 // list of points that lead to others in basin
-                std::deque<point<size_t>> check{start};
+                std::deque<point> check{start};
 
                 while (!check.empty()){
 
