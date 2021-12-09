@@ -17,7 +17,7 @@ struct card_t{
     std::vector<std::vector<bool>> crossed{5,std::vector<bool>(5,false)};
 
     // unordered map containing all numbers in sheet and location
-    std::unordered_map<int,point<int>> values;
+    std::unordered_map<int,point> values;
 
     // check if row/col at pos has been completed
     bool completed_card( const int& x, const int& y ){
