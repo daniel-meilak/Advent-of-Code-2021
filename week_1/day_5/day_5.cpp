@@ -13,7 +13,7 @@ int main(){
     std::vector<std::vector<int>> input = input_to_int_2D(read_input_2D("input", delimiters));
 
     // map of points and no of crosses for only horizontal/vertical and all
-    std::unordered_map<point<int>,int> non_diag_crosses, all_crosses;
+    std::unordered_map<point,int> non_diag_crosses, all_crosses;
 
     // go through lines and find all crosses
     for (const auto& line : input){
