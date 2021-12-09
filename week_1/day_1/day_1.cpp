@@ -9,7 +9,7 @@
 int main(){
 
     // read input into vector of int.
-    std::vector<int> input = input_to_int<int>(read_input("input", ""));
+    std::vector<int> input = input_to_int(read_input("input", ""));
 
     const size_t& size = input.size();
     
@@ -42,7 +42,7 @@ int main(){
 void using_inner_product(){
 
     // read input into vector of int.
-    std::vector<int> input = input_to_int<int>(read_input("input", ""));
+    std::vector<int> input = input_to_int(read_input("input", ""));
 
     // parameter breakdown:                                first1         last1          first2           init  op1            op2
     std::cout << "Answer (part 1): " << std::inner_product(input.begin(), input.end()-1, input.begin()+1, 0   , std::plus<>(), std::less<>()) << "\n";
@@ -60,7 +60,7 @@ void using_inner_product(){
 void improved_day_1(){
 
     // read input into vector of int.
-    std::vector<int> input = input_to_int<int>(read_input("input", ""));
+    std::vector<int> input = input_to_int(read_input("input", ""));
 
     auto start = input.begin();     // compare from initial value in vector
     auto end   = input.end()-3;     // stop at 3rd value from last (due to part2)

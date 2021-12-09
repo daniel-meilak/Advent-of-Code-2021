@@ -55,7 +55,7 @@ int main(){
     std::vector<std::vector<std::string>> input = read_input_2D("input", delimiters);
 
     // list of called out values
-    std::vector<int> call_outs = input_to_int<int>(input[0]);
+    std::vector<int> call_outs = input_to_int(input[0]);
 
     // all bingo cards (list for fast insertion and removal, random access not required)
     std::list<card_t> bingo_cards;
