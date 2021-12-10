@@ -3,6 +3,7 @@
 #include<string>
 #include<vector>
 #include<algorithm>
+#include<numeric>
 #include<unordered_map>
 #include"../../Utils/utils.h"
 
@@ -39,7 +40,6 @@ next_line:
         // work through chunks
         for (const char& c : *it){
 
-
             switch (c){
                 // conveniently the close brackets are +1/+2 in ascii value
                 case '[': case '{': case '<':
@@ -51,9 +51,8 @@ next_line:
                 break;
 
                 default:
-                    const char& last = open_chunks.back();
 
-                    if (last == c){ open_chunks.pop_back(); }
+                    if (open_chunks.back() == c){ open_chunks.pop_back(); }
                     else {
                         // add score, remove line and go to next (break out of nested for)
                         part_1 += illegal_scoring.at(c);
@@ -65,11 +64,7 @@ next_line:
         }
 
         // calculate and find autocomplete score
-        long score = 0;
-        for (auto it=open_chunks.rbegin(); it!=open_chunks.rend(); it++){
-            score = score*5 + complete_scoring.at(*it);
-        }
-        auto_scores.push_back(score);
+        auto_scores.push_back( std::accumulate(open_chunks.rbegin(), open_chunks.rend(), 0l, [&](long l, char r){return l*5l + complete_scoring.at(r);}) );
     }
     
     // autocomplete score is middle
