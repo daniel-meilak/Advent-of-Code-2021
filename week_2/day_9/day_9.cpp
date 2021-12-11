@@ -10,7 +10,7 @@ std::vector<point> cardinals = {{1,0},{-1,0},{0,1},{0,-1}};
 
 int main(){
 
-    // read input into vector of strings.
+    // read input into vector of vector of int
     std::vector<std::vector<int>> grid = read_int_grid("input", true, 9);
 
     // grid width and height
