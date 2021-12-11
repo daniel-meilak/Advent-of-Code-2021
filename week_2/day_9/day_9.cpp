@@ -11,32 +11,11 @@ std::vector<point> cardinals = {{1,0},{-1,0},{0,1},{0,-1}};
 int main(){
 
     // read input into vector of strings.
-    std::vector<std::string> input = read_input("input", "");
+    std::vector<std::vector<int>> grid = read_int_grid("input", true, 9);
 
     // grid width and height
-    int height = (int)input.size()+2;
-    int width  = (int)input[0].size()+2;
-
-    // grid with top border
-    std::vector<std::vector<int>> grid{std::vector<int>(width,9)};
-
-    // convert to std::vector<std::vector<int>> with borders
-    for (const std::string& line : input){
-        
-        // next line in grid with left border
-        std::vector<int> temp = {9};
-        temp.reserve(width);
-
-        for (const char& c : line){ temp.push_back(c-'0'); }
-        // add right border
-        temp.push_back(9);
-
-        // add to grid
-        grid.push_back(temp);
-    }
-
-    // bottom border
-    grid.push_back(std::vector<int>(width,9));
+    int height = (int)grid.size();
+    int width  = (int)grid[0].size();
 
     // calculate sum of risk levels and basin sizes
     int part_1 = 0;
