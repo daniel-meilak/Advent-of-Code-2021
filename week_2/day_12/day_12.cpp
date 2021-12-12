@@ -24,7 +24,7 @@ struct graph_t{
 
     private:
         // breadth first search for looking through tree
-        void BFS( const std::string& current, std::vector<std::string>& path, std::multiset<std::string>& visited, bool visited_twice = false );
+        void DFS( const std::string& current, std::vector<std::string>& path, std::multiset<std::string>& visited, bool visited_twice = false );
 };
 
 int main(){
@@ -66,11 +66,11 @@ void graph_t::calculate_paths(){
     // vector to store path
     std::vector<std::string> path;
 
-    // call BFS to find paths
-    BFS("start", path, visited);
+    // call DFS to find paths
+    DFS("start", path, visited);
 }
 
-void graph_t::BFS( const std::string& current, std::vector<std::string>& path, std::multiset<std::string>& visited, bool visited_twice ){
+void graph_t::DFS( const std::string& current, std::vector<std::string>& path, std::multiset<std::string>& visited, bool visited_twice ){
 
     // if small cave add to visited
     if ( std::islower(current[0]) ){
@@ -84,14 +84,14 @@ void graph_t::BFS( const std::string& current, std::vector<std::string>& path, s
 
     // if at end, add full path to paths
     if ( current == "end" ){ paths.push_back(path); }
-    // else, continue BFS with connected nodes
+    // else, continue DFS with connected nodes
     else {
         for (const std::string& next : tree[current]){
 
             if (next == "start"){ continue; }
 
             // only continue to unvisited or uppercase nodes, and in part 2, one extra small cave
-            if (!visited.contains(next) || (part_2 && !visited_twice)){ BFS(next, path, visited, visited_twice); }
+            if (!visited.contains(next) || (part_2 && !visited_twice)){ DFS(next, path, visited, visited_twice); }
         }
     }
 
