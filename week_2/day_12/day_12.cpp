@@ -10,9 +10,6 @@
 // struct to keep graph information together
 struct graph_t{
 
-    // start and end of graph
-    const std::string start = "start", end = "end";
-
     // flag to allow visiting small cave twice
     bool part_2 = false;
 
@@ -70,7 +67,7 @@ void graph_t::calculate_paths(){
     std::vector<std::string> path;
 
     // call BFS to find paths
-    BFS(start, path, visited);
+    BFS("start", path, visited);
 }
 
 void graph_t::BFS( const std::string& current, std::vector<std::string>& path, std::multiset<std::string>& visited, bool visited_twice ){
@@ -86,12 +83,12 @@ void graph_t::BFS( const std::string& current, std::vector<std::string>& path, s
     path.push_back(current);
 
     // if at end, add full path to paths
-    if ( current == end ){ paths.push_back(path); }
+    if ( current == "end" ){ paths.push_back(path); }
     // else, continue BFS with connected nodes
     else {
         for (const std::string& next : tree[current]){
 
-            if (next == start){ continue; }
+            if (next == "start"){ continue; }
 
             // only continue to unvisited or uppercase nodes, and in part 2, one extra small cave
             if (!visited.contains(next) || (part_2 && !visited_twice)){ BFS(next, path, visited, visited_twice); }
