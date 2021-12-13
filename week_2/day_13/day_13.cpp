@@ -1,8 +1,6 @@
 #include<iostream>
 #include<vector>
 #include<string>
-#include<algorithm>
-#include<cstdlib>
 #include"../../Utils/utils.h"
 
 int main(){
@@ -34,14 +32,13 @@ int main(){
     int xmin, ymin, mirror_x, mirror_y;
     for (const auto& line : folds){
 
-        bool x_fold = false;
-
-        // get fold start
-        if (line[0] == "x"){ x_fold = true; }
+        // folding along x or y
+        bool x_fold = line[0] == "x";
        
         xmin = x_fold  ? std::stoi(line[1])+1 : 0;
         ymin = !x_fold ? std::stoi(line[1])+1 : 0;
 
+        // work through grid being folded up/left
         for (int x=xmin; x<xmax; x++){
             for (int y=ymin ; y<ymax; y++){
 
@@ -53,7 +50,7 @@ int main(){
             }
         }
 
-        // reduce grid size
+        // reduce grid x/ymax
         if (x_fold){ xmax = xmin-1; }
         else       { ymax = ymin-1; }
 
@@ -68,7 +65,7 @@ int main(){
         }
     }
 
-    // reduce grid to final state
+    // reduce grid to final state for printing
     grid.erase(std::next(grid.begin(),ymax), grid.end());
     for (auto& row : grid){ row.erase(std::next(row.begin(),xmax),row.end()); }
 
