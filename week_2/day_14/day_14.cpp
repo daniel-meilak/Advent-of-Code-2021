@@ -59,19 +59,12 @@ int main(){
     for (const auto& [pair,n] : save  ){ polymer_count1[pair[0]] += n; }
     for (const auto& [pair,n] : count ){ polymer_count2[pair[0]] += n; }
 
-    // find min an max 
-    long long min1=LLONG_MAX, min2=LLONG_MAX, max1=0, max2=0;
-    for (const auto& [_,value]: polymer_count1){
-        min1 = std::min(min1,value);
-        max1 = std::max(max1,value);
-    }
-    for (const auto& [_,value]: polymer_count2){
-        min2 = std::min(min2,value);
-        max2 = std::max(max2,value);
-    }
+    // find min max of map using lambda to sort values, not keys
+    auto [min1,max1] = std::minmax_element(polymer_count1.begin(), polymer_count1.end(), [&](auto l, auto r){return l.second < r.second;});
+    auto [min2,max2] = std::minmax_element(polymer_count2.begin(), polymer_count2.end(), [&](auto l, auto r){return l.second < r.second;});
 
-    std::cout << "Answer (part 1): " << max1-min1 << std::endl;
-    std::cout << "Answer (part 2): " << max2-min2 << std::endl;
+    std::cout << "Answer (part 1): " << max1->second - min1->second << std::endl;
+    std::cout << "Answer (part 2): " << max2->second - min2->second << std::endl;
 
     return 0;
 }
