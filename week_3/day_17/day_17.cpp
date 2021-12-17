@@ -71,7 +71,6 @@ int main(){
         }
     }
 
-    // trajectory is mirrored up to down, so max height reached by distance to lower bound
     std::cout << "Answer (part 1): " << part_1 << std::endl;
     std::cout << "Answer (part 2): " << part_2 << std::endl;
 
