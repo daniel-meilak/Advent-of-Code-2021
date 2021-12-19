@@ -38,7 +38,9 @@ int main(){
     int part_2 = 0;
     std::list<char> sum1,sum2;
     for (auto it1=numbers.begin(); it1!=numbers.end(); it1++){
-        for (auto it2=numbers.begin(); it2!=numbers.end() && it2!=it1; it2++){
+        for (auto it2=numbers.begin(); it2!=numbers.end(); it2++){
+
+            if (it1==it2){ continue; }
 
             sum1 = add(*it1,*it2);
             sum2 = add(*it2,*it1);
