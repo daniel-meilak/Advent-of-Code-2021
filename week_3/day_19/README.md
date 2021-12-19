@@ -1,0 +1,3 @@
+## Day 19
+
+Relatively happy with my solution. Surprisingly, the implementation followed perfectly from my written plan. I assume the code isn't particularly efficient, it's a brute force approach and it takes about `1.5` seconds to run with optimizaiton. There must be much smarter ways to compare the beacons without needing so many comparisons and calculations. Interestingly, I couldn't help but think of a newly realeased video (as of 19/12/2021) by [Computerphile](https://youtu.be/4uWSo8v3iQA).
