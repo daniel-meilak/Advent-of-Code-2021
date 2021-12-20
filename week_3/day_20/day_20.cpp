@@ -17,7 +17,7 @@ int main(){
     const size_t size   = 500;
     size_t offset = 200;
 
-    // fill grid 1000x1000 and place original image (roughly at centre)
+    // fill (extra large) grid with '.' and place original image (roughly) at centre
     std::vector<std::string> grid(size,std::string(size,'.'));
     
     for (size_t x=0; x<width; x++){
