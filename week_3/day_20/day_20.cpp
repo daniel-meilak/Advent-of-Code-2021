@@ -30,7 +30,7 @@ int main(){
     std::vector<std::string> copy(size,std::string(size,'.')), save;
 
     // the 'infinite' grid backgroud is either all '.' or '#' 
-    // depending on 0th and last element of algorithm
+    // depending on first and last element of algorithm
     const char even_fill = algorithm.front();
     const char odd_fill  = algorithm.back();
 
