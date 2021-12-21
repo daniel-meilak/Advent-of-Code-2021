@@ -3,7 +3,6 @@
 #include<string>
 #include<algorithm>
 #include<unordered_map>
-#include<stack>
 #include"../../Utils/utils.h"
 
 struct game_t{
@@ -48,7 +47,7 @@ int main(){
 
     // part 1
     while(play(game, die)){}
-    int part_1 = game.score1 < game.score2 ? game.score1*die : game.score2*die; 
+    int part_1 = std::min(game.score1,game.score2)*die; 
 
     // part 2
     // map of game and number of occurences (in all universes)
@@ -64,7 +63,7 @@ int main(){
         play2(all_games,wins1,wins2);
     }
 
-    ulong part_2 = wins1 > wins2 ? wins1 : wins2;
+    ulong part_2 = std::max(wins1,wins2);
 
     std::cout << "Answer (part 1): " << part_1 << std::endl;
     std::cout << "Answer (part 2): " << part_2 << std::endl;
