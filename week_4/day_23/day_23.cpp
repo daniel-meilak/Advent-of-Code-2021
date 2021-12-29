@@ -20,8 +20,10 @@ std::vector<point> get_paths(const std::vector<std::string>& input, const std::u
 
 int main(){
 
-    // read inputs into vector of strings.
-    std::vector<std::string> input[2] = {read_input("input1", ""), read_input("input2", "")};
+   //  read input into vector of strings.
+   std::vector<std::string> input[2] = {read_input("input_23", ""),read_input("input_23", "")};
+   input[1].insert(std::next(input[1].end(),-2), "  #D#C#B#A#");
+   input[1].insert(std::next(input[1].end(),-2), "  #D#B#A#C#");
 
     std::unordered_map<point,std::vector<point>> neighbours[2];
     std::map<point,char> amphi_pos[2];
