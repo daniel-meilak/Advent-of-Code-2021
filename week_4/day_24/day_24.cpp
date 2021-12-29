@@ -21,8 +21,8 @@ void div(const std::string& a, const std::string& b);
 void mod(const std::string& a, const std::string& b);
 void eql(const std::string& a, const std::string& b);
 
-// unused
-void decrement(std::string::iterator it, int n=0);
+// print
+std::string print(const std::string& number);
 
 int main(){
 
@@ -55,18 +55,22 @@ int main(){
     if (reg[3]!=0){ std::cout << "Houston, we have a problem\n"; }
 
     // highest and lowest model number found by decompiling input. Explained in README.md 
-    std::cout << "Answer (part 1): " << max_number << std::endl;
-    std::cout << "Answer (part 2): " << min_number << std::endl;
+    std::cout << "Answer (part 1): " << print(max_number) << std::endl;
+    std::cout << "Answer (part 2): " << print(min_number) << std::endl;
 
     return 0;
 }
 
-// decrements strings of the form "n n n n n n n" (skips '0's)
-void decrement(std::string::iterator it, int n){
-    if (--*std::next(it,n) == '0'){
-        *std::next(it,n) = '9';
-        decrement(it,n-2);
+// print number without " "
+std::string print(const std::string& number){
+    std::string output;
+
+    for (const auto& c : number){
+        if (c==' '){ continue; }
+        output.push_back(c);
     }
+
+    return output;
 }
 
 void inp(const std::string& a, std::stringstream& ss){
