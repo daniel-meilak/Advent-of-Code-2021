@@ -40,7 +40,7 @@ int main(){
 
     // read input into vector of vector of strings.
     std::vector<std::string> delimiters = {"Player "," starting position: "};
-    std::vector<std::vector<int>> input = input_to_int_2D(read_input_2D("input", delimiters));
+    std::vector<std::vector<int>> input = input_to_int_2D(read_input_2D("input_21", delimiters));
 
     game_t game(input[0][1],input[1][1]);
     int die = 0;

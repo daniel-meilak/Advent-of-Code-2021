@@ -45,7 +45,7 @@ int main(){
 
     // read input into vector of vector of strings.
     std::vector<std::string> delimiters = {" x=","..",",y=",",z="};
-    std::vector<std::vector<std::string>> input = read_input_2D("input", delimiters);
+    std::vector<std::vector<std::string>> input = read_input_2D("input_22", delimiters);
 
     // set of cubes
     std::set<cube> on_cubes;

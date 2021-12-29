@@ -12,7 +12,7 @@ char common_digit(const std::vector<std::string>& input, const size_t& i, const 
 int main(){
 
     // read input into vector of strings.
-    std::vector<std::string> input = read_input("input", "");
+    std::vector<std::string> input = read_input("input_3", "");
 
     // part 1
 
