@@ -15,7 +15,7 @@ int A_star_cost(const std::vector<std::vector<int>>& grid, const point& start, c
 int main(){
 
     // read input into vector of vector of int.
-    std::vector<std::vector<int>> grid = read_int_grid("input");
+    std::vector<std::vector<int>> grid = read_int_grid("input_15");
 
     const int width  = static_cast<int>(grid[0].size()); 
     const int height = static_cast<int>(grid.size());

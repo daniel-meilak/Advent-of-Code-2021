@@ -13,7 +13,7 @@ int check_flash( const int x, const int y, std::vector<std::vector<int>>& grid, 
 int main(){
 
     // read input into vector of vector of int
-    std::vector<std::vector<int>> input = read_int_grid("input", true, INT_MIN);
+    std::vector<std::vector<int>> input = read_int_grid("input_11", true, INT_MIN);
 
     // simulate 100 steps
     const int steps  = 100;

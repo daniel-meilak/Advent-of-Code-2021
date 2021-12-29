@@ -8,7 +8,7 @@
 int main(){
 
     // read input into vector of int.
-    std::vector<int> input = input_to_int(read_input("input", ","));
+    std::vector<int> input = input_to_int(read_input("input_6", ","));
 
     // vector of no of fish at each stage (index)
     std::vector<long> stages(9);

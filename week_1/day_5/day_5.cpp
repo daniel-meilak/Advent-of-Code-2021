@@ -10,7 +10,7 @@ int main(){
 
     // read input into vector of vector of int
     std::vector<std::string> delimiters = {",", " ", "->"};
-    std::vector<std::vector<int>> input = input_to_int_2D(read_input_2D("input", delimiters));
+    std::vector<std::vector<int>> input = input_to_int_2D(read_input_2D("input_5", delimiters));
 
     // map of points and no of crosses for only horizontal/vertical and all
     std::unordered_map<point,int> non_diag_crosses, all_crosses;

@@ -14,7 +14,7 @@ int main(){
 
     // read input into vector of vector of int
     std::vector<std::string> delimiters = {"target area: x=", "..", ", y="};
-    std::vector<std::vector<int>> input = input_to_int_2D(read_input_2D("input", delimiters));
+    std::vector<std::vector<int>> input = input_to_int_2D(read_input_2D("input_17", delimiters));
 
     // target
     const int xmin=input[0][0];

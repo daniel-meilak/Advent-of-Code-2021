@@ -17,7 +17,7 @@ std::list<char> reduce(std::list<char>& number);
 int main(){
 
     // read input into vector of strings.
-    std::vector<std::string> input = read_input("input", "");
+    std::vector<std::string> input = read_input("input_18", "");
 
     // store snailfish numbers in list for fast insertion/deletion
     std::vector<std::list<char>> numbers;

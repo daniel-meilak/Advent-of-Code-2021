@@ -24,7 +24,7 @@ long read_packet(const std::string binary, int& version_sum, size_t& read_pos);
 int main(){
 
    // read input into vector of strings.
-   std::string input = read_line("input");
+   std::string input = read_line("input_16");
 
    // convert input hex to binary representation
    std::string binary;

@@ -28,7 +28,9 @@ void rearrange(state current, int& energy);
 int main(){
 
    //  read input into vector of strings.
-   std::vector<std::string> input[2] = {read_input("input1", ""),read_input("input2", "")};
+   std::vector<std::string> input[2] = {read_input("input_23", ""),read_input("input", "")};
+   input[1].insert(std::next(input[1].end(),-2), "  #D#C#B#A#");
+   input[1].insert(std::next(input[1].end(),-2), "  #D#B#A#C#");
 
    state part_1, part_2;
    part_1.burrow = input[0];

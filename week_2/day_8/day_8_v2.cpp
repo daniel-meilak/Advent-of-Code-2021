@@ -23,7 +23,7 @@ int main(){
 
     // read input into vector of vector of strings.
     std::vector<std::string> delimiters = {" ", "|"};
-    std::vector<std::vector<std::string>> input = read_input_2D("input", delimiters);
+    std::vector<std::vector<std::string>> input = read_input_2D("input_8", delimiters);
 
     // count number of 1,4,7,8 in output (lengths 2,3,4 and 7) - part 1
     // add up deciphered output - part 2

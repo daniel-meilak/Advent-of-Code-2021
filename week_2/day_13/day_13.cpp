@@ -1,17 +1,28 @@
 #include<iostream>
 #include<vector>
 #include<string>
+#include<algorithm>
 #include"../../Utils/utils.h"
 
 int main(){
 
-    // read dots
-    std::vector<std::string> delimiters = {","};
-    std::vector<std::vector<int>> dots  = input_to_int_2D(read_input_2D("dots", delimiters));
+    // read input
+    std::vector<std::string> delimiters = {",","fold along ", "="};
+    std::vector<std::vector<std::string>> input  = read_input_2D("input_13", delimiters);
 
-    // read folds
-    delimiters = {"fold along ", "="};
-    std::vector<std::vector<std::string>> folds = read_input_2D("folds", delimiters);
+    // separate into folds and dots
+    std::vector<std::vector<std::string>> folds;
+    std::vector<std::vector<int>> dots;
+
+    bool read_dots = false;
+    for (const auto& line : input){
+
+        if (!read_dots){
+            if (line.empty()){ read_dots=true; continue; }
+            dots.push_back({std::stoi(line[0]), std::stoi(line[1])});
+        }
+        else { folds.push_back(line); }
+    }
 
     // get grid size
     int xmax = folds[0][0] == "x" ? std::stoi(folds[0][1])*2 + 1 : std::stoi(folds[1][1])*2 + 1;
