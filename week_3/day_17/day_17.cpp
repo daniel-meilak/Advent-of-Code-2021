@@ -26,7 +26,7 @@ int main(){
     int vel = 0;
 
     // minimum xvelocity that reaches target before getting to 0
-    int min_x_vel;
+    int min_x_vel=0;
 
     int distance = 0;
     while (distance < xmax){
