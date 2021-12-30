@@ -1,175 +1,181 @@
 #include<iostream>
-#include<vector>
-#include<string>
-#include<cmath>
-#include<algorithm>
-#include<unordered_map>
-#include<unordered_set>
+#include<climits>
 #include<map>
-#include<utility>
-#include<cctype>
-#include<deque>
+#include<string>
+#include<vector>
+#include<unordered_map>
 #include"../../Utils/utils.h"
-#include"../../Utils/point.h"
 
-const std::vector<point> cardinals  = {{1,0}, {-1,0}, {0,1}, {0,-1}};
-const std::unordered_set<point> disallowed = {{3,1},{5,1},{7,1},{9,1}};
-const std::unordered_map<char,int> correct_room = {{'A',3},{'B',5},{'C',7},{'D',9}};
+const std::unordered_map<char,int> cost = {{'A',1},{'B',10},{'C',100},{'D',1000}};
+const std::unordered_map<char,int> correct_room = {{'A',2},{'B',4},{'C',6},{'D',8}};
+const std::vector<size_t> allowed_positions = {0,1,3,5,7,9,10};
 
-std::vector<point> get_paths(const std::vector<std::string>& input, const std::unordered_map<point,std::vector<point>>& neighbours, const std::map<point,char>& positions, const point& pos, char letter);
+struct state_t{
+   std::map<char,std::string> rooms;
+   std::string hall;
+
+   // spaceship operator defines "==","!=",">","<",">=","<="
+   auto operator<=>(const state_t&) const = default;
+
+   state_t(std::string A, std::string B, std::string C, std::string D){
+      rooms['A'] = A;
+      rooms['B'] = B;
+      rooms['C'] = C;
+      rooms['D'] = D;
+      hall = std::string(11,'.');
+   }
+};
+
+
+bool finished(const std::unordered_map<char,std::string>& state);
+bool can_move_from(char amphipod, const std::string& column);
+bool can_move_to(char amphipod, const std::string& column);
+int  top_index(const std::string& room);
+int  destination_index(const std::string& room);
+bool between(int index1, char amphipod, int index2);
+bool clear_path(char amphipod, int index, const std::string& hall);
+int  solve(state_t& state, std::map<state_t,int>& seen_states);
 
 int main(){
 
    //  read input into vector of strings.
-   std::vector<std::string> input[2] = {read_input("input_23", ""),read_input("input_23", "")};
-   input[1].insert(std::next(input[1].end(),-2), "  #D#C#B#A#");
-   input[1].insert(std::next(input[1].end(),-2), "  #D#B#A#C#");
+   std::vector<std::string> in = read_input("input_23", "");
 
-    std::unordered_map<point,std::vector<point>> neighbours[2];
-    std::map<point,char> amphi_pos[2];
-    int final_energy[2];
+   // create states for part 1 and part 2
+   state_t part_1({in[2][3],in[3][3]},{in[2][5],in[3][5]},{in[2][7],in[3][7]},{in[2][9],in[3][9]});
+   state_t part_2({in[2][3],'D','D',in[3][3]},{in[2][5],'C','B',in[3][5]},{in[2][7],'B','A',in[3][7]},{in[2][9],'A','C',in[3][9]});
 
-    // end states
-    const std::map<point,char> end_state[2] ={
-        // part 1
-        { {{3,2},'A'}, {{3,3},'A'}, {{5,2},'B'}, {{5,3},'B'}, {{7,2},'C'}, {{7,3},'C'}, {{9,2},'D'}, {{9,3},'D'} },
+   std::map<state_t,int> seen_states1, seen_states2;
 
-        // part 2
-        { {{3,2},'A'}, {{3,3},'A'}, {{3,4},'A'}, {{3,5},'A'}, {{5,2},'B'}, {{5,3},'B'}, {{5,4},'B'}, {{5,5},'B'},
-          {{7,2},'C'}, {{7,3},'C'}, {{7,4},'C'}, {{7,5},'C'}, {{9,2},'D'}, {{9,3},'D'}, {{9,4},'D'}, {{9,5},'D'} }
-    };
+   std::cout << "Answer (part 1): " << solve(part_1, seen_states1) << std::endl;
+   std::cout << "Answer (part 2): " << solve(part_2, seen_states2) << std::endl;
 
-    // do both part 1 and 2
-    for (int part=0; part<2; part++){
-
-        // build neighbouring rooms and amphipod positions
-        for (size_t y=0; y<input[part].size(); y++){
-            for (size_t x=0; x<input[part][y].size(); x++){
-
-                char  c = input[part][y][x];
-                point p = {(int)x,(int)y};
-                
-                // ignore walls or points
-                if (c == '#' || c == ' '){ continue; }
-                // add amphipods
-                else if (std::isupper(c)){ amphi_pos[part][p] = c; }
-
-                // add room and neighbours
-                for (const auto& dir : cardinals){
-                    
-                    point next = dir + p;
-
-                    if ( input[part][next.y][next.x] != '#' ){ neighbours[part][p].push_back(next); } 
-                }
-            }
-        }
-
-        // simulate all possible configurations
-        std::map<std::map<point,char>,int> seen_states = {{amphi_pos[part],0}};
-        std::deque<std::map<point,char>> states = {amphi_pos[part]};
-        
-        while (!states.empty()){
-
-            std::map<point,char> current = states.front();
-            states.pop_front();
-
-            if (current == end_state[part]){ break; }
-
-            // work through all movable amphipods
-            for (const auto& [pos,letter] : current){
-
-                // amphipod in correct pos, dont move
-                if (pos.x == correct_room.at(letter)){
-
-                    bool done = true;
-                    for (int j=pos.y+1; j<=(part==0?3:5); j++){
-                        if (input[part][j][pos.x]!=letter){
-                            done = false;
-                            break;
-                        }
-                    }
-
-                    if (done){ continue; }
-                }
-
-                // find all possible positions to move to
-                for (const auto stop : get_paths(input[part],neighbours[part],current,pos,letter)){
-
-                    // copy state and move letter from pos to stop
-                    std::map<point,char> copy = current;
-                    copy[stop] = letter;
-                    copy.erase(pos);
-
-                    // calculate energy cost of moving
-                    int energy = seen_states.at(current) + manhattan(pos,stop)*std::pow(10,letter-'A');
-
-                    // if state is new or better than identical older state, add/replace with new energy
-                    if (!seen_states.contains(copy) || seen_states.at(copy) > energy){
-                        seen_states[copy] = energy;
-                    } 
-
-                    // explore new state
-                    states.push_back(copy);
-                }
-            }            
-        }
-
-        final_energy[part] = seen_states.at(end_state[part]);
-    }
-
-    std::cout << "Answer (part 1): " << final_energy[0] << std::endl;
-    std::cout << "Answer (part 2): " << final_energy[1] << std::endl;
-
-    return 0;
+   return 0;
 }
 
-std::vector<point> get_paths(const std::vector<std::string>& input, const std::unordered_map<point,std::vector<point>>& neighbours, const std::map<point,char>& positions, const point& pos, char letter){
+// state is finished when amphipods are in the right columns
+bool finished(const state_t& state){
 
-    std::deque<point> path = {pos};
-    std::unordered_set<point> visited;
-    std::vector<point> stops;
+   for (const auto& [amphipod,column] : state.rooms){
+      for (const char& c : column){
+         if (c != amphipod){ return false; }
+      }
+   }
+   return true;
+}
 
-    while (!path.empty()){
+// check if amphipod is in wrong column
+bool can_move_from(char amphipod, const std::string& column){
 
-        point current = path.front();
-        path.pop_front();
+   for (const char& c : column){
+      if (c!=amphipod && c!='.'){ return true; }
+   }
+   return false;
+}
 
-        for (const auto& next : neighbours.at(current)){
+// check if amphipod can move into column
+bool can_move_to(char amphipod, const std::string& column){
 
-            // skip occupied and visited steps
-            if (!positions.contains(next) && !visited.contains(next)){ visited.insert(next); }
-            else { continue; }
+   for (const char& c : column){
+      if (c!=amphipod && c!='.'){ return false; }
+   }
+   return true;
+}
 
-            // add next to path to find next steps
-            path.push_back(next);
+// get index of first amphipod in room
+int top_index(const std::string& room){
+   for (size_t i=0; i<room.size(); i++){
+      if (room[i]!='.'){ return static_cast<int>(i); }
+   }
+   return INT_MAX;
+}
 
-            // check if next can be stopped at
-            // cannot move from hall to hall
-            if ( (pos.y==1 && next.y==1) ){ continue; }
-            // if moving to room 
-            else if ( next.y != 1 ){
+// get index of last empty spot in room
+int destination_index(const std::string& room){
+   for (int i=static_cast<int>(room.size())-1; i>=0; i--){
+      if (room[i]=='.'){ return i; }
+   }
+   return INT_MAX;
+}
 
-                // must be correct room
-                if ( next.x != correct_room.at(letter) ){ continue; }
+// check that amphipod should lie between two indexes
+bool between(int index1, char amphipod, int index2){
+   return (correct_room.at(amphipod)<index1 && index1<index2) || (index2<index1 && index1<correct_room.at(amphipod));
+}
 
-                // must move to bottom of room
-                if ( input[next.y+1][next.x]!='#' && !positions.contains({next.x,next.y+1}) ){ continue; }
+// check if path to correct room is clear
+bool clear_path(char amphipod, int index, const std::string& hall){
+   for (int i=0; i<static_cast<int>(hall.size()); i++){
+      if (between(i,amphipod,index) && hall[i]!='.'){ return false; }
+   }
+   return true;
+}
 
-                // room must contain only correct letters
-                if (positions.contains({next.x,5}) && positions.at({next.x,5})!=letter){ continue; }
-                if (positions.contains({next.x,4}) && positions.at({next.x,4})!=letter){ continue; }
-                if (positions.contains({next.x,3}) && positions.at({next.x,3})!=letter){ continue; }
-                if (positions.contains({next.x,2}) && positions.at({next.x,2})!=letter){ continue; }
+int solve(state_t& state, std::map<state_t,int>& seen_states){
 
-                // all checks pass add to list of possible positions
-                stops.push_back(next);
-            }
-            // moving to hall, dont allow stopping in front of rooms
-            else if ( disallowed.contains(next) ){ continue; }
-            // all checks pass, add to list of possible positions
-            else { stops.push_back(next); }
-        }
-    }
+   auto& rooms = state.rooms;
+   auto& hall  = state.hall;
 
-    return stops;
+   // if finished, cost does not increase
+   if (finished(state)){ return 0; }
+
+   // if state has been seen, get last calculated cost
+   if (seen_states.contains(state)){ return seen_states.at(state); }
+
+   // create copy
+   state_t copy = state;
+
+   // move to destination if possible
+   for (size_t i=0; i<hall.size(); i++){
+      char amphipod = hall[i];
+      
+      if (amphipod!='.' && can_move_to(amphipod,rooms.at(amphipod)) && clear_path(amphipod,i,hall)){
+         
+         // calculate distance and cost for move
+         int dest     = destination_index(rooms.at(amphipod));
+         int distance = dest + 1 + abs(correct_room.at(amphipod)-i);
+         int new_cost = cost.at(amphipod) * distance;
+
+         // update state
+         hall[i] = '.';
+
+         // create new state
+         state_t new_state = state;
+         new_state.rooms[amphipod][dest] = amphipod;
+
+         return new_cost + solve(new_state, seen_states);
+      }
+   }
+
+   // move out of room if possible
+   int answer = 1000000;
+   for (auto& [amphipod,room] : rooms){
+      
+      // check if amphipod isn't in correct room
+      if (!can_move_from(amphipod, room)){ continue; }
+
+      // check if room is full
+      int index = top_index(room);
+      if (index == INT_MAX){ continue; }
+
+      char moving_amphi = room[index];
+      // find first empty spot
+      for (const size_t pos : allowed_positions){
+         if (hall[pos]!='.'){ continue; }
+
+         if (clear_path(amphipod, pos, hall)){
+            int distance   = index + 1 + abs(pos - correct_room.at(amphipod));
+            
+            // create new state
+            state_t new_state = state;
+            new_state.hall[pos] = moving_amphi;
+            new_state.rooms[amphipod][index] = '.';
+
+            answer = std::min(answer, cost.at(moving_amphi)*distance + solve(new_state, seen_states)); 
+         }
+      }
+   }
+   seen_states[copy] = answer;
+
+   return answer;
 }
