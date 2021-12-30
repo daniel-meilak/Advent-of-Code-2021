@@ -1,187 +1,85 @@
+#include<algorithm>
 #include<iostream>
 #include<vector>
 #include<string>
-#include<set>
-#include<utility>
+#include<map>
 #include"../../Utils/utils.h"
-#include"../../Utils/point.h"
 
-// to avoid confusion for x,y members in point_t, derive new struct with new names
-struct range: public point{
-    const int& min() const{ return x; }
-    const int& max() const{ return y; }
+struct cube_t{
 
-    void setmin(int a){ x = a; }
-    void setmax(int a){ y = a; }
+   int xmin, xmax;
+   int ymin, ymax;
+   int zmin, zmax;
 
-    range(int x, int y): point(x,y){}
+   // spaceship operator defines "==","!=",">","<",">=","<="
+   auto operator<=>(const cube_t&) const = default;
 };
-
-// I used cube to mean cuboid throughout this code
-struct cube{
-    range x={0,0}, y = {0,0}, z={0,0};
-    bool on = true;
-
-    // spaceship operator defines "==","!=",">","<",">=","<="
-    auto operator<=>(const cube&) const = default;
-
-    cube() = default;
-    cube(const range& x, const range& y, const range& z, bool on = true): x(x), y(y), z(z), on(on){};
-    
-    bool intersect(const cube& b) const;
-    ulong volume() const{ 
-        ulong sum = 0;
-        sum += abs(x.max()-x.min())+1;
-        sum *= abs(y.max()-y.min())+1;
-        sum *= abs(z.max()-z.min())+1;
-
-        return sum;
-    }
-};
-
-void form_new_cubes(const cube& a, const cube& b, std::set<cube>& pieces, std::set<cube>& left_over);
 
 int main(){
 
-    // read input into vector of vector of strings.
-    std::vector<std::string> delimiters = {" x=","..",",y=",",z="};
-    std::vector<std::vector<std::string>> input = read_input_2D("input_22", delimiters);
+   // read input into vector of vector of strings.
+   std::vector<std::string> delimiters = {" x=","..",",y=",",z="};
+   std::vector<std::vector<std::string>> input = read_input_2D("input_22", delimiters);
 
-    // set of cubes
-    std::set<cube> on_cubes;
+   std::vector<cube_t> cubes;
 
-    // add cubes to map
-    for (const auto& line : input){
+   // map of cubes to count
+   std::map<cube_t,ulong> counter;
 
-        cube a = {{std::stoi(line[1]), std::stoi(line[2])}, {std::stoi(line[3]), std::stoi(line[4])}, {std::stoi(line[5]), std::stoi(line[6])}};
-        if (line[0] == "off"){ a.on = false; }
-        std::set<cube> left_over{a}, pieces;
+   
+   for (const auto& line : input){
 
-        // break up intersections into pieces and left over
-intersected:;
-        while (!left_over.empty()){
+      // read cube list
+      cube_t new_cube;
+      
+      new_cube.xmin = std::stoi(line[1]);
+      new_cube.xmax = std::stoi(line[2]);
+      new_cube.ymin = std::stoi(line[3]);
+      new_cube.ymax = std::stoi(line[4]);
+      new_cube.zmin = std::stoi(line[5]);
+      new_cube.zmax = std::stoi(line[6]);
+      bool on = line[0]=="on" ? true : false;
 
-            const cube current = *left_over.begin();
-            left_over.erase(left_over.begin());
+      // counter for new cubes
+      std::map<cube_t,ulong> update;
 
-            // check for intersections with cubes already in map
-            for (auto it=on_cubes.begin(); it!=on_cubes.end();){
+      for (const auto& [cube,count] : counter){
 
-                // if the cubes intersect, create divisions of cubes
-                if (current.intersect(*it)){
+         cube_t inter;
 
-                    form_new_cubes(*it,current,pieces,left_over);
+         // find intersections
+         inter.xmin = std::max(new_cube.xmin, cube.xmin);
+         inter.ymin = std::max(new_cube.ymin, cube.ymin);
+         inter.zmin = std::max(new_cube.zmin, cube.zmin);
+         inter.xmax = std::min(new_cube.xmax, cube.xmax);
+         inter.ymax = std::min(new_cube.ymax, cube.ymax);
+         inter.zmax = std::min(new_cube.zmax, cube.zmax);
 
-                    // remove intersected cube
-                    it = on_cubes.erase(it);
+         if (inter.xmin<=inter.xmax && inter.ymin<=inter.ymax && inter.zmin<=inter.zmax){ update[inter] -= count; }
+      }
 
-                    on_cubes.insert(pieces.begin(),pieces.end());
-                    pieces.clear();
-                    goto intersected;
-                }
-                else{ ++it; }
-            }
-            if (current.on){ on_cubes.insert(current); }
-        }
-    }
+      update[new_cube] += on;
 
-    // calculate volume of on cubes
-    ulong part_1 = 0, part_2 = 0, volume;
-    for (const cube& c : on_cubes){
+      for (const auto& [cube,count] : update){ counter[cube] += count; }
+   }
 
-        volume = c.volume();
-        if (c.x.min()>=-50 && c.x.max()<=50&&c.y.min()>=-50 && c.y.max()<=50&&c.z.min()>=-50 && c.z.max()<=50){
-            part_1 += volume;
-        }
+   // calculate volumes
+   ulong part_1 = 0;
+   ulong part_2 = 0;
 
-        part_2 += volume;
-    }
+   for (const auto& [cube,count] : counter){
 
-    std::cout << "Answer (part 1): " << part_1 << std::endl;
-    std::cout << "Answer (part 2): " << part_2 << std::endl;
+      ulong volume = (cube.xmax-cube.xmin+1ul)*(cube.ymax-cube.ymin+1ul)*(cube.zmax-cube.zmin+1ul)*count;
 
-    return 0;
-}
+      if (cube.xmin>=-50 && cube.xmax<=50 && cube.ymin>=-50 && cube.ymax<=50 && cube.zmin>=-50 && cube.zmax<=50){
+         part_1 += volume;
+      }
 
-bool cube::intersect(const cube& b) const{
-    return x.min()<=b.x.max() && x.max()>= b.x.min() && y.min()<=b.y.max() && y.max()>=b.y.min() && z.min()<=b.z.max() && z.max()>=b.z.min();
-}
+      part_2 += volume;
+   }
 
-void form_new_cubes(const cube& a, const cube& b, std::set<cube>& pieces, std::set<cube>& left_over){
+   std::cout << "Answer (part 1): " << part_1 << std::endl;
+   std::cout << "Answer (part 2): " << part_2 << std::endl;
 
-    // central cube in intersection
-    cube c;
-
-    // add all cubes not in intersection (when on)
-    // working along x
-    // left cube
-    if (a.x.min() < b.x.min()){
-        pieces.insert( {{a.x.min(),b.x.min()-1}, a.y, a.z} );
-        c.x.setmin(b.x.min());
-    }
-    else if (a.x.min() > b.x.min()){
-        left_over.insert( {{b.x.min(),a.x.min()-1}, b.y, b.z, b.on} );
-        c.x.setmin(a.x.min());
-    }
-    else { c.x.setmin(a.x.min()); }
-
-    // right cube
-    if (a.x.max() > b.x.max()){
-        pieces.insert( {{b.x.max()+1,a.x.max()}, a.y, a.z} );
-        c.x.setmax(b.x.max());
-    }
-    else if (a.x.max() < b.x.max()){
-        left_over.insert( {{a.x.max()+1,b.x.max()}, b.y, b.z, b.on} );
-        c.x.setmax(a.x.max());
-    }
-    else { c.x.setmax(a.x.max()); }
-
-    // working along y
-    // left cube
-    if (a.y.min() < b.y.min()){
-        pieces.insert( {c.x, {a.y.min(),b.y.min()-1}, a.z} );
-        c.y.setmin(b.y.min());
-    }
-    else if (a.y.min() > b.y.min()){
-        left_over.insert( {c.x, {b.y.min(),a.y.min()-1}, b.z, b.on} );
-        c.y.setmin(a.y.min());
-    }
-    else { c.y.setmin(a.y.min()); }
-
-    // right cube
-    if (a.y.max() > b.y.max()){
-        pieces.insert( {c.x, {b.y.max()+1,a.y.max()}, a.z} );
-        c.y.setmax(b.y.max());
-    }
-    else if (a.y.max() < b.y.max()){
-        left_over.insert( {c.x, {a.y.max()+1,b.y.max()}, b.z, b.on} );
-        c.y.setmax(a.y.max());
-    }
-    else { c.y.setmax(a.y.max()); }
-
-    // working along z
-    // left cube
-    if (a.z.min() < b.z.min()){
-        pieces.insert( {c.x, c.y, {a.z.min(),b.z.min()-1}} );
-        c.z.setmin(b.z.min());
-    }
-    else if (a.z.min() > b.z.min()){
-        left_over.insert( {c.x, c.y, {b.z.min(),a.z.min()-1}, b.on} );
-        c.z.setmin(a.z.min());
-    }
-    else { c.z.setmin(a.z.min()); }
-
-    // right cube
-    if (a.z.max() > b.z.max()){
-        pieces.insert( {c.x, c.y, {b.z.max()+1,a.z.max()}} );
-        c.z.setmax(b.z.max());
-    }
-    else if (a.z.max() < b.z.max()){
-        left_over.insert( {c.x, c.y, {a.z.max()+1,b.z.max()}, b.on} );
-        c.z.setmax(a.z.max());
-    }
-    else { c.z.setmax(a.z.max()); }
-
-    // finally add intersection cube if b is on
-    if (b.on){ pieces.insert(c); }
+   return 0;
 }
