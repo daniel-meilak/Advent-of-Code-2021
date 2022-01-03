@@ -39,7 +39,7 @@ int  solve(state_t& state, std::map<state_t,int>& seen_states);
 int main(){
 
    //  read input into vector of strings.
-   std::vector<std::string> in = read_input("input_23", "");
+   std::vector<std::string> in = read_input("input_23");
 
    // create states for part 1 and part 2
    state_t part_1({in[2][3],in[3][3]},{in[2][5],in[3][5]},{in[2][7],in[3][7]},{in[2][9],in[3][9]});

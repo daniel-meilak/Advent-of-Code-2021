@@ -24,7 +24,7 @@ const std::unordered_map<char,int> complete_scoring = {
 int main(){
 
     // read input into vector of strings.
-    std::list<std::string> input = read_input<std::list>("input_10", "");
+    std::list<std::string> input = read_input<std::list>("input_10");
 
     // scoring for illegal and autocomplete characters
     int part_1 = 0;

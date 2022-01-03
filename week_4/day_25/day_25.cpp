@@ -8,7 +8,7 @@
 int main(){
 
     // read input into vector of strings.
-    std::vector<std::string> input = read_input("input_25", "");
+    std::vector<std::string> input = read_input("input_25");
 
     const int height = static_cast<int>(input.size());
     const int width  = static_cast<int>(input[0].size());

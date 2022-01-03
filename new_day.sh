@@ -36,7 +36,8 @@ echo "#include<iostream>
 int main(){
 
     // read input into vector of strings.
-    // std::vector<std::string> input = read_input(\"input\", \"\");
+    // std::vector<std::string> delimiters = {};
+    // std::vector<std::string> input = read_input(\"input\", delimiters);
 
     // read input into vector of vector of strings.
     // std::vector<std::string> delimiters = {};
