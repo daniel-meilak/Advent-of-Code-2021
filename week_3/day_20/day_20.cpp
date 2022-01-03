@@ -8,7 +8,7 @@
 int main(){
 
     // read input into vector of strings.
-    std::vector<std::string> input = read_input("input_20", "");
+    std::vector<std::string> input = read_input("input_20");
 
     // get algorithm string
     const std::string& algorithm = input[0];

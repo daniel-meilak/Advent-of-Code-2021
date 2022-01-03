@@ -11,7 +11,7 @@ int triangle_distance(int n){ return n*(n+1)/2; }
 int main(){
 
     // read input into vector of int.
-    std::vector<int> input = input_to_int(read_input("input_7", ","));
+    std::vector<int> input = input_to_int(read_input("input_7", {","}));
 
     // task is to find the median value
     auto middle = input.begin() + (input.end() - input.begin())/2;
