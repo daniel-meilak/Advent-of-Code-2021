@@ -5,6 +5,8 @@
 #include<map>
 #include"utils.h"
 
+using ullong = unsigned long long;
+
 struct cube_t{
 
    int xmin, xmax;
@@ -24,7 +26,7 @@ int main(){
    std::vector<cube_t> cubes;
 
    // map of cubes to count
-   std::map<cube_t,ulong> counter;
+   std::map<cube_t,ullong> counter;
 
    
    for (const auto& line : input){
@@ -41,7 +43,7 @@ int main(){
       bool on = line[0]=="on" ? true : false;
 
       // counter for new cubes
-      std::map<cube_t,ulong> update;
+      std::map<cube_t,ullong> update;
 
       for (const auto& [cube,count] : counter){
 
@@ -64,12 +66,12 @@ int main(){
    }
 
    // calculate volumes
-   ulong part_1 = 0;
-   ulong part_2 = 0;
+   ullong part_1 = 0;
+   ullong part_2 = 0;
 
    for (const auto& [cube,count] : counter){
 
-      ulong volume = (cube.xmax-cube.xmin+1ul)*(cube.ymax-cube.ymin+1ul)*(cube.zmax-cube.zmin+1ul)*count;
+      ullong volume = (cube.xmax-cube.xmin+1ull)*(cube.ymax-cube.ymin+1ull)*(cube.zmax-cube.zmin+1ull)*count;
 
       if (cube.xmin>=-50 && cube.xmax<=50 && cube.ymin>=-50 && cube.ymax<=50 && cube.zmin>=-50 && cube.zmax<=50){
          part_1 += volume;

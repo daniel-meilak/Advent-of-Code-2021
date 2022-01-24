@@ -28,7 +28,7 @@ int main(){
 
     // scoring for illegal and autocomplete characters
     int part_1 = 0;
-    std::vector<long> auto_scores;
+    std::vector<long long> auto_scores;
     auto_scores.reserve(input.size());
 
     // work through  line
@@ -64,7 +64,7 @@ next_line:
         }
 
         // calculate and find autocomplete score
-        auto_scores.push_back( std::accumulate(open_chunks.rbegin(), open_chunks.rend(), 0l, [&](long l, char r){return l*5l + complete_scoring.at(r);}) );
+        auto_scores.push_back( std::accumulate(open_chunks.rbegin(), open_chunks.rend(), 0ll, [&](long long l, char r){return l*5ll + complete_scoring.at(r);}) );
     }
     
     // autocomplete score is middle
