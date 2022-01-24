@@ -68,7 +68,7 @@ foreach(day RANGE 1 25)
 
    # add each executable
    add_executable(day_${day} ${PROJECT_SOURCE_DIR}/week_${week}/day_${day}/day_${day}.cpp)
-   set_target_properties(day_${day} PROPERTIES OUTPUT_NAME "day_${day}.exe")
+   set_target_properties(day_${day} PROPERTIES OUTPUT_NAME "day_${day}")
    target_link_libraries(day_${day} PUBLIC utils)
 
    # copy input over
@@ -80,7 +80,7 @@ foreach(day RANGE 1 25)
    list(GET part_2 ${index} output_2)
 
    # test results
-   add_test(NAME day_${day}_test COMMAND day_${day}.exe)
+   add_test(NAME day_${day}_test COMMAND day_${day})
    set_tests_properties(day_${day}_test PROPERTIES PASS_REGULAR_EXPRESSION "${output_1}\n.*${output_2}" TIMEOUT 15)
    
 endforeach()
