@@ -4,10 +4,11 @@
 #include<list>
 #include<iterator>
 #include<cctype>
+#include<algorithm>
 #include"utils.h"
 
 bool is_digit(char c){ return std::isdigit(c); };
-bool is_pair(std::list<char>::iterator it);
+bool is_pair(std::list<char>::iterator it, std::list<char>::iterator end);
 bool explode(std::list<char>& number);
 bool split(std::list<char>& number);
 int magnitude(std::list<char>& number);
@@ -168,15 +169,11 @@ bool split(std::list<char>& number){
 
 int magnitude(std::list<char>& number){
 
-    bool found_magnitude = false;
-
-    while (!found_magnitude){
-
-        found_magnitude = true;
+    while (!std::all_of(number.begin(), number.end(), isdigit)){
 
         for (auto it=number.begin(); it!=number.end(); it++){
-            
-            if (std::isdigit(*std::next(it)) && is_pair(it)){
+
+            if (it!=std::next(number.end(),-1) && std::isdigit(*std::next(it)) && is_pair(it,number.end())){
 
                 auto start = it;
                 std::string a,b,magnitude;
@@ -187,8 +184,6 @@ int magnitude(std::list<char>& number){
 
                 number.insert(start,magnitude.begin(),magnitude.end());
                 it = number.erase(start,std::next(it));
-
-                found_magnitude = false;
             }
         }
     }
@@ -196,11 +191,11 @@ int magnitude(std::list<char>& number){
     return std::stoi(std::basic_string(number.begin(),number.end()));
 }
 
-bool is_pair(std::list<char>::iterator it){
+bool is_pair(std::list<char>::iterator it, std::list<char>::iterator end){
 
     std::string s;
     
-    while(s.size() != 2){
+    while(s.size() != 2 && it != std::next(end,-1)){
         if (!std::isdigit(*(++it))){ s.push_back(*it); }
     }
 
