@@ -27,7 +27,7 @@ struct state_t{
 };
 
 
-bool finished(const std::unordered_map<char,std::string>& state);
+bool finished(const state_t& state);
 bool can_move_from(char amphipod, const std::string& column);
 bool can_move_to(char amphipod, const std::string& column);
 int  top_index(const std::string& room);
@@ -133,7 +133,7 @@ int solve(state_t& state, std::map<state_t,int>& seen_states){
          
          // calculate distance and cost for move
          int dest     = destination_index(rooms.at(amphipod));
-         int distance = dest + 1 + abs(correct_room.at(amphipod)-i);
+         int distance = dest + 1 + abs(correct_room.at(amphipod)-static_cast<int>(i));
          int new_cost = cost.at(amphipod) * distance;
 
          // update state
@@ -164,7 +164,7 @@ int solve(state_t& state, std::map<state_t,int>& seen_states){
          if (hall[pos]!='.'){ continue; }
 
          if (clear_path(amphipod, pos, hall)){
-            int distance   = index + 1 + abs(pos - correct_room.at(amphipod));
+            int distance   = index + 1 + abs(static_cast<int>(pos) - correct_room.at(amphipod));
             
             // create new state
             state_t new_state = state;
