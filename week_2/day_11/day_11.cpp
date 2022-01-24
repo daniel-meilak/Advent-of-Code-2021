@@ -2,7 +2,7 @@
 #include<vector>
 #include<unordered_set>
 #include<climits>
-#include"../../Utils/utils.h"
+#include"utils.h"
 #include"../../Utils/point.h"
 
 // neighbouring cells in a grid

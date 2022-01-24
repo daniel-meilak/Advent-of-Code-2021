@@ -2,7 +2,7 @@
 #include<vector>
 #include<string>
 #include<algorithm>
-#include"../../Utils/utils.h"
+#include"utils.h"
 
 int main(){
 

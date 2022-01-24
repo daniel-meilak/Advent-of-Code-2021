@@ -49,6 +49,9 @@ list(APPEND part_2 1704 2120734350 3277956 21184 17882 1749945484935 93699985 10
 
 enable_testing()
 
+# add utils subdirectory
+add_subdirectory(Utils)
+
 # add executable and test each day
 foreach(day RANGE 1 25)
    
@@ -66,6 +69,7 @@ foreach(day RANGE 1 25)
    # add each executable
    add_executable(day_${day} ${PROJECT_SOURCE_DIR}/week_${week}/day_${day}/day_${day}.cpp)
    set_target_properties(day_${day} PROPERTIES OUTPUT_NAME "day_${day}.exe")
+   target_link_libraries(day_${day} PUBLIC utils)
 
    # copy input over
    configure_file(${PROJECT_SOURCE_DIR}/week_${week}/day_${day}/input_${day} ${PROJECT_BINARY_DIR}/input_${day} COPYONLY)

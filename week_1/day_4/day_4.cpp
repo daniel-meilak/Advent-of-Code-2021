@@ -6,7 +6,7 @@
 #include<functional>
 #include<numeric>
 #include<unordered_map>
-#include"../../Utils/utils.h"
+#include"utils.h"
 #include"../../Utils/point.h"
 
 // bingo card struct

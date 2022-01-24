@@ -4,7 +4,7 @@
 #include<list>
 #include<iterator>
 #include<cctype>
-#include"../../Utils/utils.h"
+#include"utils.h"
 
 bool is_digit(char c){ return std::isdigit(c); };
 bool is_pair(std::list<char>::iterator it);

@@ -4,7 +4,7 @@
 #include<algorithm>
 #include<unordered_map>
 #include<sstream>
-#include"../../Utils/utils.h"
+#include"utils.h"
 
 // instructions and storage
 enum struct ALU{inp, add, mul, div, mod, eql};

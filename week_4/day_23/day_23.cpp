@@ -4,7 +4,7 @@
 #include<string>
 #include<vector>
 #include<unordered_map>
-#include"../../Utils/utils.h"
+#include"utils.h"
 
 const std::unordered_map<char,int> cost = {{'A',1},{'B',10},{'C',100},{'D',1000}};
 const std::unordered_map<char,int> correct_room = {{'A',2},{'B',4},{'C',6},{'D',8}};

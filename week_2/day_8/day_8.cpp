@@ -3,7 +3,7 @@
 #include<cmath>
 #include<string>
 #include<unordered_map>
-#include"../../Utils/utils.h"
+#include"utils.h"
 
 // table of ID to digit (explained in README.md)
 const std::unordered_map<int,int> table = {
