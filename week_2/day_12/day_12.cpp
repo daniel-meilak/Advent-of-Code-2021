@@ -5,7 +5,7 @@
 #include<cctype>
 #include<unordered_map>
 #include<set>
-#include"../../Utils/utils.h"
+#include"utils.h"
 
 // struct to keep graph information together
 struct graph_t{

@@ -5,7 +5,7 @@
 #include<algorithm>
 #include<numeric>
 #include<unordered_map>
-#include"../../Utils/utils.h"
+#include"utils.h"
 
 const std::unordered_map<char,int> illegal_scoring = {
     {')',3},

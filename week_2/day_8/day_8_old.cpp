@@ -5,7 +5,7 @@
 #include<unordered_map>
 #include<unordered_set>
 #include<cstdlib>
-#include"../../Utils/utils.h"
+#include"utils.h"
 
 void find_segment(const std::string& digit_a, const std::string& digit_b, char c, std::unordered_map<char,char>& cipher, std::string& known_segments);
 void find_digit(std::unordered_set<std::string>& set, int n1, int n2, std::vector<std::string>& numbers, std::unordered_map<std::string,char>& look_up);

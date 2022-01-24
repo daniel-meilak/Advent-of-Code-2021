@@ -3,7 +3,7 @@
 #include<string>
 #include<algorithm>
 #include<unordered_map>
-#include"../../Utils/utils.h"
+#include"utils.h"
 
 struct game_t{
     int score1 = 0;

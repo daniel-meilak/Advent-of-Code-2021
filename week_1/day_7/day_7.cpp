@@ -4,7 +4,7 @@
 #include<algorithm>
 #include<cstdlib>
 #include<numeric>
-#include"../../Utils/utils.h"
+#include"utils.h"
 
 int triangle_distance(int n){ return n*(n+1)/2; }
 

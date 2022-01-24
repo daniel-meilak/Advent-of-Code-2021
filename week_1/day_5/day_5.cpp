@@ -3,7 +3,7 @@
 #include<string>
 #include<unordered_map>
 #include<numeric>
-#include"../../Utils/utils.h"
+#include"utils.h"
 #include"../../Utils/point.h"
 
 int main(){

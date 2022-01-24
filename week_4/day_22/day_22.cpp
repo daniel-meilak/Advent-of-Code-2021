@@ -3,7 +3,7 @@
 #include<vector>
 #include<string>
 #include<map>
-#include"../../Utils/utils.h"
+#include"utils.h"
 
 struct cube_t{
 

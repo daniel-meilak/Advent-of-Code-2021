@@ -5,7 +5,7 @@
 #include<list>
 #include<unordered_map>
 #include<unordered_set>
-#include"../../Utils/utils.h"
+#include"utils.h"
 
 // simple hash for vector<int>(3) (turn into string and use built-in string hash)
 struct hash{

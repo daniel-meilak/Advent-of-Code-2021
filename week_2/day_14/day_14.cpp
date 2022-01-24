@@ -5,7 +5,7 @@
 #include<algorithm>
 #include<map>
 #include<unordered_map>
-#include"../../Utils/utils.h"
+#include"utils.h"
 
 int main(){
 
