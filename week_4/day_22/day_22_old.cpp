@@ -4,7 +4,7 @@
 #include<set>
 #include<utility>
 #include"utils.h"
-#include"../../Utils/point.h"
+#include"point.h"
 
 // to avoid confusion for x,y members in point_t, derive new struct with new names
 struct range: public point{

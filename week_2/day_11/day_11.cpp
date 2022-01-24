@@ -3,7 +3,7 @@
 #include<unordered_set>
 #include<climits>
 #include"utils.h"
-#include"../../Utils/point.h"
+#include"point.h"
 
 // neighbouring cells in a grid
 std::vector<point> neighbours = {{1,0},{-1,0},{0,1},{0,-1},{1,1},{-1,-1},{1,-1},{-1,1}};

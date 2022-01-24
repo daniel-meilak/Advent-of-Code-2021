@@ -4,7 +4,7 @@
 #include<unordered_map>
 #include<numeric>
 #include"utils.h"
-#include"../../Utils/point.h"
+#include"point.h"
 
 int main(){
 
