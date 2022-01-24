@@ -5,7 +5,7 @@
 #include<utility>
 #include<queue>
 #include"utils.h"
-#include"../../Utils/point.h"
+#include"point.h"
 
 using PD = std::pair<double,point>;
 

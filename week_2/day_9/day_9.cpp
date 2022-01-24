@@ -4,7 +4,7 @@
 #include<set>
 #include<string>
 #include"utils.h"
-#include"../../Utils/point.h"
+#include"point.h"
 
 std::vector<point> cardinals = {{1,0},{-1,0},{0,1},{0,-1}};
 

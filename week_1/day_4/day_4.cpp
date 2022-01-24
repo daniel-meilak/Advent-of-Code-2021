@@ -7,7 +7,7 @@
 #include<numeric>
 #include<unordered_map>
 #include"utils.h"
-#include"../../Utils/point.h"
+#include"point.h"
 
 // bingo card struct
 struct card_t{
