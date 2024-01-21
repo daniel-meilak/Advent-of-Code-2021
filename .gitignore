@@ -7,3 +7,4 @@ in
 .vscode/*
 *.py
 build/*
+input*
